@@ -22,15 +22,16 @@ func NewStore(db *sql.DB) *Store {
 
 // execTx executes a function within a database transaction
 func (store *Store) execTx(ctx context.Context, fn func(*Queries) error) error {
-	tx, err := store.db.BeginTx(ctx, nil) // nil = default options
+	tx, err := store.db.BeginTx(ctx, nil) 
+	// nil = default options
+	// other option = &sql.TxOptions{}
 	if err != nil {
 		return err
 	}
-
 	q := New(tx)
 	err = fn(q)
 	if err != nil {
-		if rbErr := tx.Rollback(); rbErr != nil { // rbErr = rollback error
+		if rbErr := tx.Rollback(); rbErr != nil {
 			return fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
 		}
 		return err
@@ -48,31 +49,33 @@ type TransferTxParams struct {
 
 // TransferTxResult is the result of the transfer transaction
 type TransferTxResult struct {
-	Transfer Transfer `json:"transfer"`
-	FromAccount Account `json:"from_account"`
-	ToAccount Account `json:"to_account"`
-	FromEntry Entry `json:"from_entry"`
-	ToEntry Entry `json:"to_entry"`
+	Transfer    Transfer `json:"transfer"`
+	FromAccount Account  `json:"from_account"`
+	ToAccount   Account  `json:"to_account"`
+	FromEntry   Entry    `json:"from_entry"`
+	ToEntry     Entry    `json:"to_entry"`
 }
 
-
 // TransferTx performs a money transfer from one account to the other
-// It creates a transfer record, add account entries, and update accounts' balance within a single database transaction
+// It creates the transfer, add account entries, and update accounts' balance within a single database transaction
 func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
 	var result TransferTxResult
-
 	err := store.execTx(ctx, func(q *Queries) error {
+		// closure is often used when we want to get the result from a callback function
 		var err error
+
+		
 		result.Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
 			FromAccountID: arg.FromAccountID,
 			ToAccountID: arg.ToAccountID,
-			Amount: arg.Amount,
+			Amount: arg.Amount,	
 		})
+
 		if err != nil {
 			return err
 		}
 
-		// update accounts' balance
+	
 		result.FromEntry, err = q.CreateEntry(ctx, CreateEntryParams{
 			AccountID: arg.FromAccountID,
 			Amount: -arg.Amount,
@@ -82,7 +85,7 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 			return err
 		}
 
-		// update accounts' balance
+	
 		result.ToEntry, err = q.CreateEntry(ctx, CreateEntryParams{
 			AccountID: arg.ToAccountID,
 			Amount: arg.Amount,
@@ -92,9 +95,29 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 			return err
 		}
 
-		// TODO: update accounts' balance
+		// update account balance -> involves locking and preventing potential deadlock
+		// get account -> update its balance -> have to use proper locking mechanism
+
+		result.FromAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
+			ID: arg.FromAccountID,
+			Amount: -arg.Amount,
+		})
+
+		if err != nil {
+			return err
+		}
+
+		result.ToAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
+			ID: arg.ToAccountID,
+			Amount: arg.Amount,
+		})
+
+		if err != nil {
+			return err
+		}
 
 		return nil
 	})
+
 	return result, err
-} 
+}
