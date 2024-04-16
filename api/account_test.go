@@ -21,13 +21,13 @@ func TestGetAccountAPI(t *testing.T) {
 	account := randomAccount()
 
 	testCases := []struct {
-		name string
-		accountID int64
-		buildStubs func(store *mockdb.MockStore)
+		name          string
+		accountID     int64
+		buildStubs    func(store *mockdb.MockStore)
 		checkResponse func(t *testing.T, recorder *httptest.ResponseRecorder)
-	} {
+	}{
 		{
-			name: "OK",
+			name:      "OK",
 			accountID: account.ID,
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -39,9 +39,9 @@ func TestGetAccountAPI(t *testing.T) {
 				require.Equal(t, http.StatusOK, recorder.Code)
 				requireBodyMatchAccount(t, recorder.Body, account)
 			},
-		},	
+		},
 		{
-			name: "NotFound",
+			name:      "NotFound",
 			accountID: account.ID,
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -54,7 +54,7 @@ func TestGetAccountAPI(t *testing.T) {
 			},
 		},
 		{
-			name: "InternalError",
+			name:      "InternalError",
 			accountID: account.ID,
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -67,7 +67,7 @@ func TestGetAccountAPI(t *testing.T) {
 			},
 		},
 		{
-			name: "InvalidID",
+			name:      "InvalidID",
 			accountID: 0,
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -93,16 +93,16 @@ func TestGetAccountAPI(t *testing.T) {
 			tc.buildStubs(store)
 
 			// start test server and send request
-			server := NewServer(store)
+			server := NewTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			url := fmt.Sprintf("/accounts/%d", tc.accountID)
 			request, err := http.NewRequest(http.MethodGet, url, nil)
 			require.NoError(t, err)
 
-			// send our API request through the erver router 
+			// send our API request through the erver router
 			// and record its response in the recorder
-			server.router.ServeHTTP(recorder, request) 
+			server.router.ServeHTTP(recorder, request)
 			tc.checkResponse(t, recorder)
 		})
 	}
@@ -110,9 +110,9 @@ func TestGetAccountAPI(t *testing.T) {
 
 func randomAccount() db.Account {
 	return db.Account{
-		ID: utils.RandomInt(1, 1000),
-		Owner: utils.RandomOwner(),
-		Balance: utils.RandomMoney(),
+		ID:       utils.RandomInt(1, 1000),
+		Owner:    utils.RandomOwner(),
+		Balance:  utils.RandomMoney(),
 		Currency: utils.RandomCurrency(),
 	}
 }

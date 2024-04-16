@@ -10,7 +10,6 @@ import (
 	"github.com/raphaeldiscky/simple-bank.git/utils"
 )
 
-
 func main() {
 	config, err := utils.LoadConfig(".")
 	if err != nil {
@@ -23,12 +22,15 @@ func main() {
 	}
 
 	store := db.NewStore(conn)
-	server := api.NewServer(store)
+	server, err := api.NewServer(config, store)
+
+	if err != nil {
+		log.Fatal("cannot create server:", err)
+	}
 
 	err = server.Start(config.ServerAddress)
 	if err != nil {
 		log.Fatal("cannot start server:", err)
 	}
-
 
 }
