@@ -13,9 +13,9 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/migrate ./migrate
 COPY app.env .
 COPY start.sh .
+RUN chmod +x start.sh
 COPY wait-for.sh .
 COPY db/migration ./migration
 
 EXPOSE 8080
 CMD [ "/app/main" ]
-ENTRYPOINT ["/app/start.sh"]
