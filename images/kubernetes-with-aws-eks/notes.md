@@ -42,7 +42,7 @@ Route traffic from the outside world to the pod:
 ## Register a domain and setup A-record
 
 - setup in AWS Route53
-- change this to `http://{domain}/users/login`
+- in Postman change this to `http://{domain}/users/login`
 
 ## User Ingress to route traffics to different services in k8s
 
@@ -54,3 +54,18 @@ Route traffic from the outside world to the pod:
 - `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/aws/deploy.yaml`
 - copy ingress Address
 - edit route traffic to with previous address in AWS Route53
+
+## Automatic issue TLS certificates in k8s -> Let's Encrypt
+
+[cert-manager](https://cert-manager.io/)
+
+- use Let's Encrypt to deploy cert-manager and configure it to get certificates for the NGIX Ingress controller
+- the best way is to use DNS-01 challenge instead of HTTP-01 challenge since it can manage wildcard certificates. Use it only if the DNS provider has an API to automate the record updates
+- for simpler way -> we use HTTP-01 challenge
+- installation [cert-manager](https://cert-manager.io/docs/installation/kubectl/)
+- config issuers to the cluster -> [ACME Issuer](https://cert-manager.io/docs/configuration/acme/)
+- create `issuer.yaml`
+- `kubectl apply -f eks/issuer.yaml`
+- attach issuer to ingress in `ingress.yaml`
+- `kubectl apply -f eks/ingress.yaml`
+- in Postman add https to `https://{domain}/users/login`
