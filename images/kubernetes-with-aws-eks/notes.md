@@ -33,8 +33,24 @@ Give user access to github-ci to cluster, since we want github to automatically 
 
 Route traffic from the outside world to the pod:
 
-- create `service.yaml` with type `LoadBalancer` to add external-ip [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+- create `service.yaml` with type `LoadBalancer` to add external-ip / expose service to the outside world [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
 
 - `kubectl apply -f eks/service.yaml`
 - check connection `nslookup a6e79e3e6b14340cda36500aa21972ed-709104643.ap-southeast-1.elb.amazonaws.com`
 - now to test in postman `http://a6e79e3e6b14340cda36500aa21972ed-709104643.ap-southeast-1.elb.amazonaws.com/users/login`
+
+## Register a domain and setup A-record
+
+- setup in AWS Route53
+- change this to `http://{domain}/users/login`
+
+## User Ingress to route traffics to different services in k8s
+
+[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+
+- change `service.yaml` type to `ClusterIP` since we don't want to expose service to outside world anymore
+- create `ingress.yaml` -> doesn't have external IP -> to make it work use [Ingress Controllers](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
+- add class `IngressClass` to `ingress.yaml`
+- `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/aws/deploy.yaml`
+- copy ingress Address
+- edit route traffic to with previous address in AWS Route53
