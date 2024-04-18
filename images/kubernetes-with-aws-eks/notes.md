@@ -75,3 +75,4 @@ Route traffic from the outside world to the pod:
 - [kubectl github action](https://github.com/marketplace/actions/kubectl-tool-installer)
 - edit `deploy.yaml`
 - we want -> whenever we push new changes to the main branch, it will build and tag the latest version image and the image should be redeployed to the k8s cluster
+- don't forget to update kubeconfig to point to the production cluser instead of localhost:8080
