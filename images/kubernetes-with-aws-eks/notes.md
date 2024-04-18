@@ -1,5 +1,7 @@
 # Notes
 
+## Connect k8s cluster on AWS EKS
+
 Add new context for the simple-bank cluster to ./kube/config file:
 `aws eks update-kubeconfig --name simple-bank --region ap-southeast-1`
 
@@ -22,3 +24,17 @@ Give user access to github-ci to cluster, since we want github to automatically 
 - `kubectl apply -f eks/aws-auth.yaml` -> give access to user who's not the create of the cluster
 
 [k9s](https://k9scli.io/)
+
+## Deploy web app to k8s cluster on AWS EKS
+
+- create `deployment.yaml`
+- `kubectl apply -f eks/deployment.yaml`
+- use k9s to easy UI
+
+Route traffic from the outside world to the pod:
+
+- create `service.yaml` with type `LoadBalancer` to add external-ip [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+
+- `kubectl apply -f eks/service.yaml`
+- check connection `nslookup a6e79e3e6b14340cda36500aa21972ed-709104643.ap-southeast-1.elb.amazonaws.com`
+- now to test in postman `http://a6e79e3e6b14340cda36500aa21972ed-709104643.ap-southeast-1.elb.amazonaws.com/users/login`
