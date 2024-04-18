@@ -19,6 +19,12 @@ type Server struct {
 	router     *gin.Engine // send requests to the correct handler for processing
 }
 
+func init() {
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("currency", validCurrency)
+	}
+}
+
 // NewServer creates a new HTTP server and setup routing
 func NewServer(config utils.Config, store db.Store) (*Server, error) {
 	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
@@ -30,9 +36,6 @@ func NewServer(config utils.Config, store db.Store) (*Server, error) {
 		config:     config,
 		store:      store,
 		tokenMaker: tokenMaker,
-	}
-	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-		v.RegisterValidation("currency", validCurrency)
 	}
 
 	server.setupRouter()
