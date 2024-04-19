@@ -37,10 +37,10 @@ test:
 	go test -v -cover ./...
 
 db_docs:
-	dbdocs build doc/db.dbml
+	dbdocs build docs/db.dbml
 
 db_schema:
-	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
+	dbml2sql --postgres -o docs/schema.sql docs/db.dbml
 
 server:
 	go run main.go
@@ -50,9 +50,11 @@ mock:
 
 proto:
 	rm -f pb/*.go 
+	rm -f docs/swagger/*.go
 	protoc --proto_path=protos --go_out=pb --go_opt=paths=source_relative \
     --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
     --grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \
+	--openapiv2_out=docs/swagger --openapiv2_opt=allow_merge=true,merge_file_name=simple_bank \
 	protos/*.proto
 
 evans:
