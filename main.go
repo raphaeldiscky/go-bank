@@ -1,18 +1,22 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"log"
 	"net"
+	"net/http"
 
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	_ "github.com/lib/pq"
 	"github.com/raphaeldiscky/simple-bank.git/api"
 	db "github.com/raphaeldiscky/simple-bank.git/db/sqlc"
 	"github.com/raphaeldiscky/simple-bank.git/gapi"
-	pt "github.com/raphaeldiscky/simple-bank.git/pb"
+	"github.com/raphaeldiscky/simple-bank.git/pb"
 	"github.com/raphaeldiscky/simple-bank.git/utils"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func main() {
@@ -27,7 +31,52 @@ func main() {
 	}
 
 	store := db.NewStore(conn)
+	go runGatewayServer(config, store)
 	runGrpcServer(config, store)
+}
+
+func runGatewayServer(config utils.Config, store db.Store) {
+	server, err := gapi.NewServer(config, store)
+
+	if err != nil {
+		log.Fatal("cannot create grpc server:", err)
+	}
+
+	// option to parse response to snake_case instead of camelCase
+	jsonOption := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
+		MarshalOptions: protojson.MarshalOptions{
+			UseProtoNames: true,
+		},
+		UnmarshalOptions: protojson.UnmarshalOptions{
+			DiscardUnknown: true,
+		},
+	})
+
+	grpcMux := runtime.NewServeMux(jsonOption)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	err = pb.RegisterSimpleBankHandlerServer(ctx, grpcMux, server)
+	if err != nil {
+		log.Fatal("cannot register handler:", err)
+	}
+
+	// receive HTTP requests from client
+	mux := http.NewServeMux()
+
+	// convert to gRPC format
+	mux.Handle("/", grpcMux)
+
+	listener, err := net.Listen("tcp", config.HTTPServerAddress)
+	if err != nil {
+		log.Fatal("cannot create listener:", err)
+	}
+
+	log.Printf("start HTTP gateway server on %s", listener.Addr().String())
+	err = http.Serve(listener, mux)
+	if err != nil {
+		log.Fatal("cannot start HTTP gateway server:", err)
+	}
+
 }
 
 func runGrpcServer(config utils.Config, store db.Store) {
@@ -37,7 +86,7 @@ func runGrpcServer(config utils.Config, store db.Store) {
 		log.Fatal("cannot create grpc server:", err)
 	}
 	grpcServer := grpc.NewServer()
-	pt.RegisterSimpleBankServer(grpcServer, server)
+	pb.RegisterSimpleBankServer(grpcServer, server)
 	reflection.Register(grpcServer)
 
 	listener, err := net.Listen("tcp", config.GRPCServerAddress)
