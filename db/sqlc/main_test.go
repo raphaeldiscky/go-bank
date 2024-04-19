@@ -7,10 +7,8 @@ import (
 	"testing"
 
 	_ "github.com/lib/pq"
-	"github.com/raphaeldiscky/simple-bank.git/utils"
+	"github.com/raphaeldiscky/simple-bank/utils"
 )
-
-
 
 var testQueries *Queries
 var testDB *sql.DB
