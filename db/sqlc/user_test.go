@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/raphaeldiscky/simple-bank.git/utils"
+	"github.com/raphaeldiscky/simple-bank/utils"
 	"github.com/stretchr/testify/require"
 )
 
@@ -13,10 +13,10 @@ func createRandomUser(t *testing.T) User {
 	hashedPassword, err := utils.HashPassword(utils.RandomString(6))
 	require.NoError(t, err)
 	arg := CreateUserParams{
-		Username: utils.RandomOwner(),
+		Username:       utils.RandomOwner(),
 		HashedPassword: hashedPassword,
-		FullName: utils.RandomOwner(),
-		Email: utils.RandomEmail(),
+		FullName:       utils.RandomOwner(),
+		Email:          utils.RandomEmail(),
 	}
 	user, err := testQueries.CreateUser(context.Background(), arg)
 	require.NoError(t, err)

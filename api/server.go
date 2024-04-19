@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
-	db "github.com/raphaeldiscky/simple-bank.git/db/sqlc"
-	"github.com/raphaeldiscky/simple-bank.git/token"
-	"github.com/raphaeldiscky/simple-bank.git/utils"
+	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
+	"github.com/raphaeldiscky/simple-bank/token"
+	"github.com/raphaeldiscky/simple-bank/utils"
 )
 
 // Server serves HTTP requests for our banking service.
