@@ -3,6 +3,9 @@ makeFileDir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 DB_LOCAL_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 DB_AWS_URL=postgresql://root:Iq0EEnRFtuwA1Qeopgiq@simple-bank.c16qeeq24ykj.ap-southeast-1.rds.amazonaws.com/simple_bank
 
+network:
+	docker network create bank-network
+
 postgres:
 	docker run --name postgres16 --network bank-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:16-alpine
 
@@ -62,4 +65,4 @@ evans:
 	evans --host localhost --port 9090 -r repl
 
 
-.PHONY: postgres createdb dropdb migrateup migrateup-aws migratedown migrateup1 migratedown1 new_migration db_docs db_schema sqlc test server mock proto evans
+.PHONY: network postgres createdb dropdb migrateup migrateup-aws migratedown migrateup1 migratedown1 new_migration db_docs db_schema sqlc test server mock proto evans
