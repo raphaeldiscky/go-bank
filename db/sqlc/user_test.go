@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 	"testing"
 	"time"
 
@@ -51,51 +52,96 @@ func TestGetUser(t *testing.T) {
 	require.WithinDuration(t, user1.PasswordChangedAt, user2.PasswordChangedAt, time.Second)
 }
 
-// func TestUpdateuser(t *testing.T) {
-// 	user1 := createRandomUser(t)
+func TestUpdateUserOnlyFullName(t *testing.T) {
+	user1 := createRandomUser(t)
 
-// 	arg := UpdateUserCreateUserParams{
-// 		Username: user1.Username,
-// 		Balance: utils.RandomMoney(),
-// 	}
+	newFullName := utils.RandomOwner()
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: user1.Username,
+		FullName: sql.NullString{
+			String: newFullName,
+			Valid:  true,
+		},
+	})
 
-// 	user2, err := testQueries.Updateuser(context.Background(), arg)
-// 	require.NoError(t, err)
-// 	require.NotEmpty(t, user2)
+	require.NoError(t, err)
+	require.NotEqual(t, user1.FullName, updatedUser.FullName)
+	require.Equal(t, newFullName, updatedUser.FullName)
+	require.Equal(t, user1.Email, updatedUser.Email)
+	require.Equal(t, user1.HashedPassword, updatedUser.HashedPassword)
+}
 
-// 	require.Equal(t, user1.Username, user2.Username)
-// 	require.Equal(t, user1.HashedPassword, user2.HashedPassword)
-// 	require.Equal(t, user1.FullName, user2.FullName)
-// 	require.Equal(t, user1.Email, user2.Email)
-// 	require.WithinDuration(t, user1.CreatedAt, user2.CreatedAt, time.Second)
-// }
+func TestUpdateUserOnlyEmail(t *testing.T) {
+	user1 := createRandomUser(t)
 
-// func TestDeleteuser(t *testing.T) {
-// 	user1 := createRandomUser(t)
-// 	err := testQueries.Deleteuser(context.Background(), user1.Username)
-// 	require.NoError(t, err)
+	newEmail := utils.RandomEmail()
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: user1.Username,
+		Email: sql.NullString{
+			String: newEmail,
+			Valid:  true,
+		},
+	})
 
-// 	user2, err := testQueries.Getuser(context.Background(), user1.Username)
-// 	require.Error(t, err)
-// 	require.EqualError(t, err, sql.ErrNoRows.Error())
-// 	require.Empty(t, user2)
-// }
+	require.NoError(t, err)
+	require.NotEqual(t, user1.Email, updatedUser.Email)
+	require.Equal(t, newEmail, updatedUser.Email)
+	require.Equal(t, user1.FullName, updatedUser.FullName)
+	require.Equal(t, user1.HashedPassword, updatedUser.HashedPassword)
+}
 
-// func TestListusers(t *testing.T) {
-// 	for i := 0; i < 10; i++ {
-// 		createRandomUser(t)
-// 	}
+func TestUpdateUserOnlyPassword(t *testing.T) {
+	user1 := createRandomUser(t)
 
-// 	arg := ListusersParams{
-// 		Limit: 5, // skip the first 5 records
-// 		Offset: 5, // return the next 5
-// 	}
+	newPassword := utils.RandomString(6)
+	newHashedPassword, err := utils.HashPassword(newPassword)
+	require.NoError(t, err)
 
-// 	users, err := testQueries.Listusers(context.Background(), arg)
-// 	require.NoError(t, err)
-// 	require.Len(t, users, 5)
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: user1.Username,
+		HashedPassword: sql.NullString{
+			String: newHashedPassword,
+			Valid:  true,
+		},
+	})
 
-// 	for _, user := range users {
-// 		require.NotEmpty(t, user)
-// 	}
-// }
+	require.NoError(t, err)
+	require.NotEqual(t, user1.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, newHashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, user1.FullName, updatedUser.FullName)
+	require.Equal(t, user1.Email, updatedUser.Email)
+}
+
+func TestUpdateUserAllFields(t *testing.T) {
+	user1 := createRandomUser(t)
+
+	newPassword := utils.RandomString(6)
+	newEmail := utils.RandomEmail()
+	newFullName := utils.RandomOwner()
+	newHashedPassword, err := utils.HashPassword(newPassword)
+	require.NoError(t, err)
+
+	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
+		Username: user1.Username,
+		HashedPassword: sql.NullString{
+			String: newHashedPassword,
+			Valid:  true,
+		},
+		Email: sql.NullString{
+			String: newEmail,
+			Valid:  true,
+		},
+		FullName: sql.NullString{
+			String: newFullName,
+			Valid:  true,
+		},
+	})
+
+	require.NoError(t, err)
+	require.NotEqual(t, user1.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, newHashedPassword, updatedUser.HashedPassword)
+	require.NotEqual(t, user1.Email, updatedUser.Email)
+	require.Equal(t, newEmail, updatedUser.Email)
+	require.NotEqual(t, user1.FullName, updatedUser.FullName)
+	require.Equal(t, newFullName, updatedUser.FullName)
+}
