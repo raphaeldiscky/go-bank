@@ -6,7 +6,7 @@ import (
 
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
 	"github.com/raphaeldiscky/simple-bank/pb"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/raphaeldiscky/simple-bank/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
@@ -28,7 +28,7 @@ func (server *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (
 		return nil, status.Errorf(codes.Internal, "failed to find user")
 	}
 
-	err = utils.CheckPassword(req.Password, user.HashedPassword)
+	err = util.CheckPassword(req.Password, user.HashedPassword)
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "incorrect password")
 	}

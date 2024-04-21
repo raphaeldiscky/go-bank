@@ -7,7 +7,7 @@ import (
 
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
 	"github.com/raphaeldiscky/simple-bank/pb"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/raphaeldiscky/simple-bank/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
@@ -55,7 +55,7 @@ func (server *Server) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest)
 	}
 
 	if req.Password != nil {
-		hashedPassword, err := utils.HashPassword(req.GetPassword())
+		hashedPassword, err := util.HashPassword(req.GetPassword())
 
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "failed to hash password: %s", err)

@@ -8,7 +8,7 @@ import (
 	"github.com/lib/pq"
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
 	"github.com/raphaeldiscky/simple-bank/pb"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/raphaeldiscky/simple-bank/val"
 	"github.com/raphaeldiscky/simple-bank/worker"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
@@ -34,7 +34,7 @@ func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 		return nil, statusDetails.Err()
 	}
 
-	hashedPassword, err := utils.HashPassword(req.GetPassword())
+	hashedPassword, err := util.HashPassword(req.GetPassword())
 
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to hash password: %s", err)

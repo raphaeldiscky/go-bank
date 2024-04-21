@@ -8,15 +8,15 @@ import (
 
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
 	"github.com/raphaeldiscky/simple-bank/token"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/raphaeldiscky/simple-bank/worker"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/metadata"
 )
 
 func NewTestServer(t *testing.T, store db.Store, taskDistributor worker.TaskDistributor) *Server {
-	config := utils.Config{
-		TokenSymmetricKey:   utils.RandomString(32),
+	config := util.Config{
+		TokenSymmetricKey:   util.RandomString(32),
 		AccessTokenDuration: time.Minute,
 	}
 

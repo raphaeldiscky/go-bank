@@ -15,7 +15,7 @@ import (
 	mockdb "github.com/raphaeldiscky/simple-bank/db/mock"
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
 	"github.com/raphaeldiscky/simple-bank/token"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 )
@@ -428,10 +428,10 @@ func TestListAccountsAPI(t *testing.T) {
 
 func randomAccount(owner string) db.Account {
 	return db.Account{
-		ID:       utils.RandomInt(1, 1000),
+		ID:       util.RandomInt(1, 1000),
 		Owner:    owner,
-		Balance:  utils.RandomMoney(),
-		Currency: utils.RandomCurrency(),
+		Balance:  util.RandomMoney(),
+		Currency: util.RandomCurrency(),
 	}
 }
 

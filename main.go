@@ -16,11 +16,11 @@ import (
 	"github.com/rakyll/statik/fs"
 	"github.com/raphaeldiscky/simple-bank/api"
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
-	_ "github.com/raphaeldiscky/simple-bank/docs/statik"
+	_ "github.com/raphaeldiscky/simple-bank/doc/statik"
 	"github.com/raphaeldiscky/simple-bank/gapi"
 	"github.com/raphaeldiscky/simple-bank/mail"
 	"github.com/raphaeldiscky/simple-bank/pb"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/raphaeldiscky/simple-bank/worker"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -31,7 +31,7 @@ import (
 
 func main() {
 
-	config, err := utils.LoadConfig(".")
+	config, err := util.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config:")
 	}
@@ -73,7 +73,7 @@ func runDBMigration(migrationURL string, dbSource string) {
 	log.Info().Msg("db migrated successfully")
 }
 
-func runTaskProcessor(config utils.Config, redisOpt asynq.RedisClientOpt, store db.Store) {
+func runTaskProcessor(config util.Config, redisOpt asynq.RedisClientOpt, store db.Store) {
 	mailer := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
 	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mailer)
 	log.Info().Msg("start task processor")
@@ -83,7 +83,7 @@ func runTaskProcessor(config utils.Config, redisOpt asynq.RedisClientOpt, store 
 	}
 }
 
-func runGatewayServer(config utils.Config, store db.Store, taskDistributor worker.TaskDistributor) {
+func runGatewayServer(config util.Config, store db.Store, taskDistributor worker.TaskDistributor) {
 	server, err := gapi.NewServer(config, store, taskDistributor)
 
 	if err != nil {
@@ -136,7 +136,7 @@ func runGatewayServer(config utils.Config, store db.Store, taskDistributor worke
 
 }
 
-func runGrpcServer(config utils.Config, store db.Store, taskDistributor worker.TaskDistributor) {
+func runGrpcServer(config util.Config, store db.Store, taskDistributor worker.TaskDistributor) {
 	server, err := gapi.NewServer(config, store, taskDistributor)
 
 	if err != nil {
@@ -160,7 +160,7 @@ func runGrpcServer(config utils.Config, store db.Store, taskDistributor worker.T
 
 }
 
-func runGinServer(config utils.Config, store db.Store) {
+func runGinServer(config util.Config, store db.Store) {
 	server, err := api.NewServer(config, store)
 
 	if err != nil {

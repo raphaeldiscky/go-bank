@@ -6,18 +6,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/stretchr/testify/require"
 )
 
 func createRandomUser(t *testing.T) User {
-	hashedPassword, err := utils.HashPassword(utils.RandomString(6))
+	hashedPassword, err := util.HashPassword(util.RandomString(6))
 	require.NoError(t, err)
 	arg := CreateUserParams{
-		Username:       utils.RandomOwner(),
+		Username:       util.RandomOwner(),
 		HashedPassword: hashedPassword,
-		FullName:       utils.RandomOwner(),
-		Email:          utils.RandomEmail(),
+		FullName:       util.RandomOwner(),
+		Email:          util.RandomEmail(),
 	}
 	user, err := testQueries.CreateUser(context.Background(), arg)
 	require.NoError(t, err)
@@ -55,7 +55,7 @@ func TestGetUser(t *testing.T) {
 func TestUpdateUserOnlyFullName(t *testing.T) {
 	user1 := createRandomUser(t)
 
-	newFullName := utils.RandomOwner()
+	newFullName := util.RandomOwner()
 	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
 		Username: user1.Username,
 		FullName: sql.NullString{
@@ -74,7 +74,7 @@ func TestUpdateUserOnlyFullName(t *testing.T) {
 func TestUpdateUserOnlyEmail(t *testing.T) {
 	user1 := createRandomUser(t)
 
-	newEmail := utils.RandomEmail()
+	newEmail := util.RandomEmail()
 	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
 		Username: user1.Username,
 		Email: sql.NullString{
@@ -93,8 +93,8 @@ func TestUpdateUserOnlyEmail(t *testing.T) {
 func TestUpdateUserOnlyPassword(t *testing.T) {
 	user1 := createRandomUser(t)
 
-	newPassword := utils.RandomString(6)
-	newHashedPassword, err := utils.HashPassword(newPassword)
+	newPassword := util.RandomString(6)
+	newHashedPassword, err := util.HashPassword(newPassword)
 	require.NoError(t, err)
 
 	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{
@@ -115,10 +115,10 @@ func TestUpdateUserOnlyPassword(t *testing.T) {
 func TestUpdateUserAllFields(t *testing.T) {
 	user1 := createRandomUser(t)
 
-	newPassword := utils.RandomString(6)
-	newEmail := utils.RandomEmail()
-	newFullName := utils.RandomOwner()
-	newHashedPassword, err := utils.HashPassword(newPassword)
+	newPassword := util.RandomString(6)
+	newEmail := util.RandomEmail()
+	newFullName := util.RandomOwner()
+	newHashedPassword, err := util.HashPassword(newPassword)
 	require.NoError(t, err)
 
 	updatedUser, err := testQueries.UpdateUser(context.Background(), UpdateUserParams{

@@ -15,7 +15,7 @@ import (
 	"github.com/lib/pq"
 	mockdb "github.com/raphaeldiscky/simple-bank/db/mock"
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 )
@@ -31,7 +31,7 @@ func (e eqCreateUserParamsMatcher) Matches(x interface{}) bool {
 		return false
 	}
 
-	err := utils.CheckPassword(e.password, arg.HashedPassword)
+	err := util.CheckPassword(e.password, arg.HashedPassword)
 	if err != nil {
 		return false
 	}
@@ -320,15 +320,15 @@ func TestLoginUserAPI(t *testing.T) {
 }
 
 func randomUser(t *testing.T) (user db.User, password string) {
-	password = utils.RandomString(6)
-	hashedPassword, err := utils.HashPassword(password)
+	password = util.RandomString(6)
+	hashedPassword, err := util.HashPassword(password)
 	require.NoError(t, err)
 
 	user = db.User{
-		Username:       utils.RandomOwner(),
+		Username:       util.RandomOwner(),
 		HashedPassword: hashedPassword,
-		FullName:       utils.RandomOwner(),
-		Email:          utils.RandomEmail(),
+		FullName:       util.RandomOwner(),
+		Email:          util.RandomEmail(),
 	}
 	return
 }

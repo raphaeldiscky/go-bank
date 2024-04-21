@@ -3,7 +3,7 @@ package mail
 import (
 	"testing"
 
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/stretchr/testify/require"
 )
 
@@ -13,7 +13,7 @@ func TestSendEmailWithGmail(t *testing.T) {
 		t.Skip()
 	}
 
-	config, err := utils.LoadConfig("..")
+	config, err := util.LoadConfig("..")
 	require.NoError(t, err)
 
 	sender := NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)

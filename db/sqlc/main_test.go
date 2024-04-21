@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	_ "github.com/lib/pq"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 )
 
 var testQueries *Queries
@@ -15,7 +15,7 @@ var testDB *sql.DB
 
 func TestMain(m *testing.M) {
 	var err error
-	config, err := utils.LoadConfig("../..")
+	config, err := util.LoadConfig("../..")
 	if err != nil {
 		log.Fatal("cannot load config:", err)
 	}

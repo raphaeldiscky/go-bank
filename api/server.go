@@ -8,12 +8,12 @@ import (
 	"github.com/go-playground/validator/v10"
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
 	"github.com/raphaeldiscky/simple-bank/token"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 )
 
 // Server serves HTTP requests for our banking service.
 type Server struct {
-	config     utils.Config
+	config     util.Config
 	store      db.Store
 	tokenMaker token.Maker
 	router     *gin.Engine // send requests to the correct handler for processing
@@ -26,7 +26,7 @@ func init() {
 }
 
 // NewServer creates a new HTTP server and setup routing
-func NewServer(config utils.Config, store db.Store) (*Server, error) {
+func NewServer(config util.Config, store db.Store) (*Server, error) {
 	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
 	if err != nil {
 		return nil, fmt.Errorf("cannot create token maker: %w", err)

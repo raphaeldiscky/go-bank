@@ -8,7 +8,7 @@ import (
 
 	"github.com/hibiken/asynq"
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/rs/zerolog/log"
 )
 
@@ -57,7 +57,7 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 	verifyEmail, err := processor.store.CreateVerifyEmail(ctx, db.CreateVerifyEmailParams{
 		Username:   user.Username,
 		Email:      user.Email,
-		SecretCode: utils.RandomString(32),
+		SecretCode: util.RandomString(32),
 	})
 
 	if err != nil {
