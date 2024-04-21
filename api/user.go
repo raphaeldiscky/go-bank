@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/lib/pq"
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 )
 
 type createUserRequest struct {
@@ -45,7 +45,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 
-	hashedPassword, err := utils.HashPassword(req.Password)
+	hashedPassword, err := util.HashPassword(req.Password)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
@@ -107,7 +107,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		return
 	}
 
-	err = utils.CheckPassword(req.Password, user.HashedPassword)
+	err = util.CheckPassword(req.Password, user.HashedPassword)
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
 		return

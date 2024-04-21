@@ -10,7 +10,7 @@ import (
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
 	"github.com/raphaeldiscky/simple-bank/pb"
 	"github.com/raphaeldiscky/simple-bank/token"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 	"google.golang.org/grpc/codes"
@@ -20,8 +20,8 @@ import (
 func TestUpdateUserAPI(t *testing.T) {
 	user, _ := randomUser(t)
 
-	newName := utils.RandomOwner()
-	newEmail := utils.RandomEmail()
+	newName := util.RandomOwner()
+	newEmail := util.RandomEmail()
 	invalidEmail := "invalid-email"
 
 	testCases := []struct {

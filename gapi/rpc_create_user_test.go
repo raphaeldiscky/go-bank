@@ -10,7 +10,7 @@ import (
 	mockdb "github.com/raphaeldiscky/simple-bank/db/mock"
 	db "github.com/raphaeldiscky/simple-bank/db/sqlc"
 	"github.com/raphaeldiscky/simple-bank/pb"
-	"github.com/raphaeldiscky/simple-bank/utils"
+	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/raphaeldiscky/simple-bank/worker"
 	mockwk "github.com/raphaeldiscky/simple-bank/worker/mock"
 	"github.com/stretchr/testify/require"
@@ -31,7 +31,7 @@ func (expected eqCreateUserTxParamsMatcher) Matches(x interface{}) bool {
 		return false
 	}
 
-	err := utils.CheckPassword(expected.password, actualArg.HashedPassword)
+	err := util.CheckPassword(expected.password, actualArg.HashedPassword)
 	if err != nil {
 		return false
 	}
@@ -54,15 +54,15 @@ func EqCreateUserTxParams(arg db.CreateUserTxParams, password string, user db.Us
 }
 
 func randomUser(t *testing.T) (user db.User, password string) {
-	password = utils.RandomString(6)
-	hashedPassword, err := utils.HashPassword(password)
+	password = util.RandomString(6)
+	hashedPassword, err := util.HashPassword(password)
 	require.NoError(t, err)
 
 	user = db.User{
-		Username:       utils.RandomOwner(),
+		Username:       util.RandomOwner(),
 		HashedPassword: hashedPassword,
-		FullName:       utils.RandomOwner(),
-		Email:          utils.RandomEmail(),
+		FullName:       util.RandomOwner(),
+		Email:          util.RandomEmail(),
 	}
 	return
 }
