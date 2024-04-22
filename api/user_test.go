@@ -238,6 +238,7 @@ func TestLoginUserAPI(t *testing.T) {
 				require.Equal(t, http.StatusInternalServerError, recorder.Code)
 			},
 		},
+
 		{
 			name: "InvalidUsername",
 			body: gin.H{
