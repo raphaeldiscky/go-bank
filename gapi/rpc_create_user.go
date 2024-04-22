@@ -10,6 +10,7 @@ import (
 	"github.com/raphaeldiscky/simple-bank/util"
 	"github.com/raphaeldiscky/simple-bank/val"
 	"github.com/raphaeldiscky/simple-bank/worker"
+	"github.com/rs/zerolog/log"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -61,6 +62,9 @@ func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 		},
 	}
 
+	log.Info().Msg(">> creating user ...")
+	time.Sleep(10 * time.Second)
+
 	txResult, err := server.store.CreateUserTx(ctx, arg)
 	if err != nil {
 		if db.ErrorCode(err) == db.UniqueViolation {
@@ -73,6 +77,7 @@ func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 		User: convertUser(txResult.User),
 	}
 
+	log.Info().Msg(">> done creating user.")
 	return rsp, nil
 }
 
