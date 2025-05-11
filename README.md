@@ -1,63 +1,71 @@
 <h1 align="center">Go Bank 🏦</h1>
 
-This application is primarily intended for exploring technical concepts. My goal is to experiment with different technologies, software architecture designs, and all the essential components involved in building a monolithic-based application.
+This application is primarily intended for exploring technical concepts. My goal is to experiment with different technologies, software architecture designs, and all the essential components involved in building a monolithic-based application in Golang.
 
 ## Features :sparkles:
 
-- ✅ RESTful API built with `Gin` framework for handling HTTP requests
-- ✅ gRPC API for efficient internal service communication
+- ✅ Building RESTful APIs using the `Gin` framework for handling HTTP requests
+- ✅ Leveraging `gRPC` for efficient internal service-to-service communication
 - ✅ Secure authentication using `PASETO` tokens and `JWT`
-- ✅ Asynchronous task processing with `Redis` and `Asynq`
-- ✅ Reliable database operations with `PostgreSQL` and `pgx`
+- ✅ Asynchronous task processing with `Redis` and `Asynq` for background processing
+- ✅ Reliable database operations with `PostgreSQL` and `pgx` driver
 - ✅ Type-safe database queries with `SQLC`
 - ✅ Database migrations using `golang-migrate`
-- ✅ Input validation using `validator`
+- ✅ Input validation using `go-playground/validator`
 - ✅ Structured logging with `zerolog`
 - ✅ Configuration management with `Viper`
-- ✅ Testing with `testify` and `gomock`
+- ✅ Testing with `testify` for assertions and `gomock` for mocking
 - ✅ Containerized deployment with `Docker` and `docker-compose`
-- ✅ `Kubernetes` deployment with `AWS EKS`
+- ✅ Deploying to production environments using `Kubernetes` on `AWS EKS`
 - ✅ CI/CD pipeline with `GitHub Actions`
 
 ## Technologies - Libraries 🛠️
 
-### Core Framework
+<h4>Core Framework</h4>
 
-- **[Gin](https://github.com/gin-gonic/gin)** - High-performance HTTP web framework
-- **[gRPC](https://grpc.io/)** - High-performance RPC framework
-- **[Viper](https://github.com/spf13/viper)** - Configuration solution
-- **[Zerolog](https://github.com/rs/zerolog)** - Zero-allocation JSON logger
+- **[gin-gonic/gin](https://github.com/gin-gonic/gin)** - High-performance HTTP web framework
+- **[grpc-ecosystem/grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)** - gRPC to JSON proxy
 
-### Database & Migration
+<h4>Database & Migration</h4>
 
-- **[PostgreSQL](https://www.postgresql.org/)** - Advanced open-source database
-- **[pgx](https://github.com/jackc/pgx)** - PostgreSQL driver and toolkit
-- **[SQLC](https://sqlc.dev/)** - Type-safe SQL query builder
-- **[golang-migrate](https://github.com/golang-migrate/migrate)** - Database migrations
+- **[jackc/pgx](https://github.com/jackc/pgx)** - PostgreSQL driver and toolkit
+- **[golang-migrate/migrate](https://github.com/golang-migrate/migrate)** - Database migrations
+- **[sqlc-dev/sqlc](https://github.com/sqlc-dev/sqlc)** - Type-safe SQL query builder
 
-### Authentication & Security
+<h4>Validation</h4>
 
-- **[PASETO](https://github.com/o1egl/paseto)** - Platform-Agnostic Security Tokens
-- **[JWT](https://github.com/dgrijalva/jwt-go)** - JSON Web Tokens
-- **[Crypto](https://golang.org/x/crypto)** - Cryptographic functions
+- **[go-playground/validator](https://github.com/go-playground/validator)** - Go Struct and Field validation
 
-### Task Processing
+<h4>Authentication & Security</h4>
 
-- **[Asynq](https://github.com/hibiken/asynq)** - Distributed task queue
-- **[Redis](https://redis.io/)** - In-memory data structure store
+- **[o1egl/paseto](https://github.com/o1egl/paseto)** - Platform-Agnostic Security Tokens
+- **[dgrijalva/jwt-go](https://github.com/dgrijalva/jwt-go)** - JSON Web Tokens
+- **[golang/crypto](https://github.com/golang/crypto)** - Cryptographic functions
 
-### Testing
+<h4>Task Processing</h4>
 
-- **[Testify](https://github.com/stretchr/testify)** - Testing toolkit
-- **[Gomock](https://github.com/uber-go/mock)** - Mocking framework
+- **[hibiken/asynq](https://github.com/hibiken/asynq)** - Distributed task queue
+- **[redis/go-redis](https://github.com/redis/go-redis)** - Redis client
 
-### Documentations
+<h4>Logging</h4>
 
-- **[grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)** - gRPC to JSON proxy
-- **[Swagger](https://swagger.io/)** - API documentation
+- **[rs/zerolog](https://github.com/rs/zerolog)** - Zero-allocation JSON logger
+
+<h4>Testing & Mocking</h4>
+
+- **[stretchr/testify](https://github.com/stretchr/testify)** - Testing toolkit
+- **[uber-go/mock](https://github.com/uber-go/mock)** - Mocking framework
+
+<h4>Documentation</h4>
+
+- **[Swagger](https://swagger.io/)** - API documentation with static files for Swagger UI
 - **[DBML](https://www.dbml.org/)** - Database Markup Language for visualizing database schema
 
-### Cloud & Infrastructure
+<h4>Configuration & Environment</h4>
+
+- **[spf13/viper](https://github.com/spf13/viper)** - Configuration solution
+
+<h4>Deployment & DevOps</h4>
 
 - **[AWS EKS](https://aws.amazon.com/eks/)** - Managed Kubernetes service
 - **[Kubernetes](https://kubernetes.io/)** - Container orchestration
@@ -66,4 +74,4 @@ This application is primarily intended for exploring technical concepts. My goal
 
 ## System Architecture 🏗️
 
-The application follows a monolithic architecture pattern with with some clean architecture principles applied.
+The application follows a monolithic architecture pattern with some clean architecture principles applied.
