@@ -17,6 +17,7 @@ This application is primarily intended for exploring technical concepts. My goal
 - ✅ Testing with `testify` for assertions and `gomock` for mocking
 - ✅ Containerized deployment with `Docker` and `docker-compose`
 - ✅ Deploying to production environments using `Kubernetes` on `AWS EKS`
+- ✅ Automatic SSL/TLS certificate management with `cert-manager` and `Let's Encrypt`
 - ✅ CI/CD pipeline with `GitHub Actions`
 
 ## Technologies - Libraries 🛠️
@@ -71,6 +72,8 @@ This application is primarily intended for exploring technical concepts. My goal
 - **[Kubernetes](https://kubernetes.io/)** - Container orchestration
 - **[Docker](https://www.docker.com/)** - Container platform
 - **[Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/)** - Kubernetes ingress controller
+- **[cert-manager](https://cert-manager.io/)** - Certificate management for Kubernetes
+- **[Let's Encrypt](https://letsencrypt.org/)** - Free SSL/TLS certificates
 
 ## System Architecture 🏗️
 
