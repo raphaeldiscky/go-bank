@@ -53,3 +53,7 @@ This application is primarily intended for exploring technical concepts. My goal
 - **[grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)** - gRPC to JSON proxy
 - **[Swagger](https://swagger.io/)** - API documentation
 - **[DBML](https://www.dbml.org/)** - Database Markup Language for visualizing database schema
+
+## System Architecture 🏗️
+
+The application follows a monolithic architecture pattern with with some clean architecture principles applied.
