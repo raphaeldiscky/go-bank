@@ -9,12 +9,14 @@ This application is primarily intended for exploring technical concepts. My goal
 - ✅ Secure authentication using `PASETO` tokens and `JWT`
 - ✅ Asynchronous task processing with `Redis` and `Asynq`
 - ✅ Reliable database operations with `PostgreSQL` and `pgx`
+- ✅ Type-safe database queries with `SQLC`
 - ✅ Database migrations using `golang-migrate`
 - ✅ Input validation using `validator`
 - ✅ Structured logging with `zerolog`
 - ✅ Configuration management with `Viper`
 - ✅ Testing with `testify` and `gomock`
 - ✅ Containerized deployment with `Docker` and `docker-compose`
+- ✅ `Kubernetes` deployment with `AWS EKS`
 - ✅ CI/CD pipeline with `GitHub Actions`
 
 ## Technologies - Libraries 🛠️
@@ -30,6 +32,7 @@ This application is primarily intended for exploring technical concepts. My goal
 
 - **[PostgreSQL](https://www.postgresql.org/)** - Advanced open-source database
 - **[pgx](https://github.com/jackc/pgx)** - PostgreSQL driver and toolkit
+- **[SQLC](https://sqlc.dev/)** - Type-safe SQL query builder
 - **[golang-migrate](https://github.com/golang-migrate/migrate)** - Database migrations
 
 ### Authentication & Security
@@ -53,6 +56,13 @@ This application is primarily intended for exploring technical concepts. My goal
 - **[grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)** - gRPC to JSON proxy
 - **[Swagger](https://swagger.io/)** - API documentation
 - **[DBML](https://www.dbml.org/)** - Database Markup Language for visualizing database schema
+
+### Cloud & Infrastructure
+
+- **[AWS EKS](https://aws.amazon.com/eks/)** - Managed Kubernetes service
+- **[Kubernetes](https://kubernetes.io/)** - Container orchestration
+- **[Docker](https://www.docker.com/)** - Container platform
+- **[Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/)** - Kubernetes ingress controller
 
 ## System Architecture 🏗️
 
