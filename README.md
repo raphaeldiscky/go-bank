@@ -1,26 +1,26 @@
-<h1 align="center">Go Bank 🏦</h1>
+<h1 align="center">Go Bank</h1>
 
 This application is primarily intended for exploring technical concepts. My goal is to experiment with different technologies, software architecture designs, and all the essential components involved in building a monolithic-based application in Golang.
 
-## Features :sparkles:
+## Features 
 
-- ✅ Building RESTful APIs using the `Gin` framework for handling HTTP requests
-- ✅ Leveraging `gRPC` for efficient internal service-to-service communication
-- ✅ Secure authentication using `PASETO` tokens and `JWT`
-- ✅ Asynchronous task processing with `Redis` and `Asynq` for background processing
-- ✅ Reliable database operations with `PostgreSQL` and `pgx` driver
-- ✅ Type-safe database queries with `SQLC`
-- ✅ Database migrations using `golang-migrate`
-- ✅ Input validation using `go-playground/validator`
-- ✅ Structured logging with `zerolog`
-- ✅ Configuration management with `Viper`
-- ✅ Testing with `testify` for assertions and `gomock` for mocking
-- ✅ Containerized deployment with `Docker` and `docker-compose`
-- ✅ Deploying to production environments using `Kubernetes` on `AWS EKS`
-- ✅ Automatic SSL/TLS certificate management with `cert-manager` and `Let's Encrypt`
-- ✅ CI/CD pipeline with `GitHub Actions`
+- Building RESTful APIs using the `Gin` framework for handling HTTP requests
+- Leveraging `gRPC` for efficient internal service-to-service communication
+- Secure authentication using `PASETO` tokens and `JWT`
+- Asynchronous task processing with `Redis` and `Asynq` for background processing
+- Reliable database operations with `PostgreSQL` and `pgx` driver
+- Type-safe database queries with `SQLC`
+- Database migrations using `golang-migrate`
+- Input validation using `go-playground/validator`
+- Structured logging with `zerolog`
+- Configuration management with `Viper`
+- Testing with `testify` for assertions and `gomock` for mocking
+- Containerized deployment with `Docker` and `docker-compose`
+- Deploying to production environments using `Kubernetes` on `AWS EKS`
+- Automatic SSL/TLS certificate management with `cert-manager` and `Let's Encrypt`
+- CI/CD pipeline with `GitHub Actions`
 
-## Technologies - Libraries 🛠️
+## Technologies - Libraries
 
 <h4>Core Framework</h4>
 
@@ -75,6 +75,6 @@ This application is primarily intended for exploring technical concepts. My goal
 - **[cert-manager](https://cert-manager.io/)** - Certificate management for Kubernetes
 - **[Let's Encrypt](https://letsencrypt.org/)** - Free SSL/TLS certificates
 
-## System Architecture 🏗️
+## System Architecture
 
 The application follows a monolithic architecture pattern with some clean architecture principles applied.
