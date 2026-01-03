@@ -74,7 +74,3 @@ This application is primarily intended for exploring technical concepts. My goal
 - **[Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/)** - Kubernetes ingress controller
 - **[cert-manager](https://cert-manager.io/)** - Certificate management for Kubernetes
 - **[Let's Encrypt](https://letsencrypt.org/)** - Free SSL/TLS certificates
-
-## System Architecture
-
-The application follows a monolithic architecture pattern with some clean architecture principles applied.
